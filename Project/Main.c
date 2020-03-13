@@ -10,44 +10,35 @@
 
 int main(int argc, char *argv[])
 {
-	// Initialization
-	Classe *classes = NULL;
-	int nbClasses = 0;
-	int sumNbGoodEstimation = 0;
-	int sumTotal = 0;
-	int maxTotal = -1;
-
 	// Customs params
-	char realClasses[NB_DATA] =      { '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4' };
+	char realClasses[NB_DATA] = { '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4' };
 	char estimatedClasses[NB_DATA] = { '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4' };
 
-	researchClasses(realClasses, estimatedClasses, NB_DATA, &classes, &nbClasses, &sumNbGoodEstimation, &sumTotal, &maxTotal);
+	// Public methods
+	displayResultsForEachClasses(realClasses, estimatedClasses);
 
-	displayResultsForEachClasses(classes);
+	displayAccuracy(realClasses, estimatedClasses);
 
-	displayAccuracy(sumNbGoodEstimation, sumTotal);
-
-	displayBarCharts(classes, maxTotal, true);
+	displayBarCharts(realClasses, estimatedClasses);
 
 	printf_s("\n");
 	return 0;
 }
 
-#pragma region METHODS
+#pragma region PUBLIC_METHODS
 
-void researchClasses(char realClasses[], char estimatedClasses[], int size, Classe** classes, int* nbClasses, int* sumNbGoodEstimation, int* sumTotal, int* maxTotal)
+void displayResultsForEachClasses(char realClasses[], char estimatedClasses[])
 {
-	for (int i = 0; i < size; i++)
-	{
-		char real = realClasses[i];
-		char estimated = estimatedClasses[i];
+	// Initialization
+	Classe* classes = NULL;
+	int nbClasses = 0;
+	int sumNbGoodEstimation = 0;
+	int sumTotal = 0;
+	int maxTotal = -1;
 
-		addOrUpdateClasses(classes, real, estimated, nbClasses, sumNbGoodEstimation, sumTotal, maxTotal);
-	}
-}
+	researchClasses(realClasses, estimatedClasses, NB_DATA, &classes, &nbClasses, &sumNbGoodEstimation, &sumTotal, &maxTotal);
 
-void displayResultsForEachClasses(Classe* classes)
-{
+	// Display labels
 	printf_s("%12s | %s | %s | %s \n", "classe", "bien classe", "total", "pourcentage");
 
 	Classe* pClasse = classes;
@@ -64,25 +55,57 @@ void displayResultsForEachClasses(Classe* classes)
 	}
 }
 
-void displayAccuracy(int sumNbGoodEstimation, int sumTotal)
+void displayAccuracy(char realClasses[], char estimatedClasses[])
 {
+	// Initialization
+	Classe* classes = NULL;
+	int nbClasses = 0;
+	int sumNbGoodEstimation = 0;
+	int sumTotal = 0;
+	int maxTotal = -1;
+
+	researchClasses(realClasses, estimatedClasses, NB_DATA, &classes, &nbClasses, &sumNbGoodEstimation, &sumTotal, &maxTotal);
+
+	// Display accuracy
 	double accuracy = calculatePourcentage((double)sumNbGoodEstimation, (double)sumTotal) * 100;
 	printf_s("L'accuracy est de %.2f %% : %d bonnes estimations sur %d elements au total.\n", accuracy, sumNbGoodEstimation, sumTotal);
 }
 
-void displayBarCharts(Classe* classes, int maxTotal, bool isAbsoluteMode)
+void displayBarCharts(char realClasses[], char estimatedClasses[])
 {
+	// Initialization
+	Classe* classes = NULL;
+	int nbClasses = 0;
+	int sumNbGoodEstimation = 0;
+	int sumTotal = 0;
+	int maxTotal = -1;
+
+	researchClasses(realClasses, estimatedClasses, NB_DATA, &classes, &nbClasses, &sumNbGoodEstimation, &sumTotal, &maxTotal);
+
+	// Compute ratio (Value of a "case" on the screen)
 	double ratio = maxTotal < 50 ? 0.5 : (double)maxTotal / 100;
 	maxTotal = maxTotal < 50 ? 50 : maxTotal;
 
+	// Display bar charts
 	displayLegende();
 	displayXaxis(maxTotal, ratio);
 	displayColumnsAndBars(classes, ratio);
 }
 
-#pragma endregion METHODS
+#pragma endregion PUBLIC_METHODS
 
-#pragma region PRIVATE 
+#pragma region PRIVATE_METHODS 
+
+void researchClasses(char realClasses[], char estimatedClasses[], int size, Classe** classes, int* nbClasses, int* sumNbGoodEstimation, int* sumTotal, int* maxTotal)
+{
+	for (int i = 0; i < size; i++)
+	{
+		char real = realClasses[i];
+		char estimated = estimatedClasses[i];
+
+		addOrUpdateClasses(classes, real, estimated, nbClasses, sumNbGoodEstimation, sumTotal, maxTotal);
+	}
+}
 
 void displayLegende()
 {
@@ -265,4 +288,4 @@ int countDigit(double number)
 	return count;
 }
 
-#pragma endregion PRIVATE
+#pragma endregion PRIVATE_METHODS

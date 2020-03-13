@@ -1,12 +1,13 @@
 #pragma once
 
+
+void displayResultsForEachClasses(char realClasses[], char estimatedClasses[]);
+
+void displayAccuracy(char realClasses[], char estimatedClasses[]);
+
+void displayBarCharts(char realClasses[], char estimatedClasses[]);
+
 void researchClasses(char realClasses[], char estimatedClasses[], int size, Classe** classes, int* nbClasses, int* sumNbGoodEstimation, int* sumTotal, int* maxTotal);
-
-void displayResultsForEachClasses(Classe* classes);
-
-void displayAccuracy(int sumNbGoodEstimation, int sumTotal);
-
-void displayBarCharts(Classe* classes, int maxTotal, bool isAbsoluteMode);
 
 void displayLegende();
 
