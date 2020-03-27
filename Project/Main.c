@@ -4,7 +4,7 @@
 #include <string.h>
 #include <math.h>
 #include "Structure.h"
-#include "Source.h"
+#include "Prototype.h"
 
 #define NB_DATA 160
 
@@ -83,8 +83,7 @@ void displayBarCharts(char realClasses[], char estimatedClasses[])
 	researchClasses(realClasses, estimatedClasses, NB_DATA, &classes, &nbClasses, &sumNbGoodEstimation, &sumTotal, &maxTotal);
 
 	// Compute ratio (Value of a "case" on the screen)
-	double ratio = maxTotal < 50 ? 0.5 : (double)maxTotal / 100;
-	maxTotal = maxTotal < 50 ? 50 : maxTotal;
+	double ratio = computeRatio(&maxTotal);
 
 	// Display bar charts
 	displayLegende();
@@ -105,6 +104,13 @@ void researchClasses(char realClasses[], char estimatedClasses[], int size, Clas
 
 		addOrUpdateClasses(classes, real, estimated, nbClasses, sumNbGoodEstimation, sumTotal, maxTotal);
 	}
+}
+
+double computeRatio(int* maxTotal)
+{
+	double ratio = *maxTotal < 50 ? 0.5 : (double)*maxTotal / 100;
+	*maxTotal = *maxTotal < 50 ? 50 : *maxTotal;
+	return ratio;
 }
 
 void displayLegende()

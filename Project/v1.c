@@ -10,6 +10,8 @@ module(displayBarCharts;realClasses, estimatedClasses;)
 
 module(researchClasses;realClasses, estimatedClasses, size;classes, nbClasses, sumNbGoodEstimation, sumTotal, maxTotal)
 
+module(displayLegende;maxTotal;ratio)
+
 module(displayLegende;;)
 
 module(displayXaxis;maxValue, ratio;)

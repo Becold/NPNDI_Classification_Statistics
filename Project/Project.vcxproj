@@ -140,10 +140,9 @@
   <ItemGroup>
     <ClCompile Include="Main.c" />
     <ClCompile Include="v1.c" />
-    <ClCompile Include="v2.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source.h" />
+    <ClInclude Include="prototype.h" />
     <ClInclude Include="structure.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

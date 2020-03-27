@@ -7,6 +7,8 @@ void displayAccuracy(char realClasses[], char estimatedClasses[]);
 
 void displayBarCharts(char realClasses[], char estimatedClasses[]);
 
+double computeRatio(int* maxTotal);
+
 void researchClasses(char realClasses[], char estimatedClasses[], int size, Classe** classes, int* nbClasses, int* sumNbGoodEstimation, int* sumTotal, int* maxTotal);
 
 void displayLegende();
