@@ -8,6 +8,7 @@
 
 #define NB_DATA 160
 
+/*
 int main(int argc, char *argv[])
 {
 	// Customs params
@@ -24,6 +25,7 @@ int main(int argc, char *argv[])
 	printf_s("\n");
 	return 0;
 }
+*/
 
 #pragma region PUBLIC_METHODS
 
