@@ -147,7 +147,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dataset.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="model.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Prototype.h" />
+    <ClInclude Include="Structure.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
