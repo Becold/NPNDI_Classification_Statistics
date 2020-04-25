@@ -14,6 +14,7 @@
 
 #define NB_FILES 24
 
+#define NB_VECTOR 1000
 #define LG_VECTOR 12
 
 void createTrainAndTestsSetFiles(void)
@@ -70,7 +71,7 @@ void createTrainAndTestsSetFiles(void)
 						&row.userAcceleration.x, &row.userAcceleration.y, &row.userAcceleration.z);
 
 					// Writes computed vectors
-					for (int iRow = 0; iRow < 1000 && !feof(pFileData); iRow++)
+					for (int iRow = 0; iRow < NB_VECTOR && !feof(pFileData); iRow++)
 					{
 						vector = sqrt(row.userAcceleration.x * row.userAcceleration.x * row.userAcceleration.y * row.userAcceleration.y * row.userAcceleration.z * row.userAcceleration.z);
 						memset(sVector, 0, sizeof(sVector));
@@ -104,7 +105,7 @@ void createTrainAndTestsSetFiles(void)
 				}
 				else
 				{
-					printf_s("An error occured while opening %s file. Their might be used by an other process.", filepath);
+					printf_s("\nAn error occured while opening %s file. Their might be used by an other process.\n", filepath);
 					system("pause");
 					exit(0);
 				}
@@ -116,7 +117,7 @@ void createTrainAndTestsSetFiles(void)
 	}
 	else
 	{
-		printf_s("An error occured while opening trainSet.csv and testsSet.csv. Their might be used by an other process.");
+		printf_s("\nAn error occured while opening trainSet.csv and testsSet.csv. Their might be used by an other process.\n");
 		system("pause");
 		exit(0);
 	}

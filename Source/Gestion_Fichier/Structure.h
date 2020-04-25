@@ -24,3 +24,10 @@ struct Row
 	Vector rotationRate;
 	Vector userAcceleration;
 };
+
+typedef struct Classe Classe;
+struct Classe
+{
+	int nbRow;
+	int sumVectors[10000];
+};
