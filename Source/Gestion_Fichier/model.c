@@ -15,31 +15,82 @@
 
 void createModelSet(void)
 {
-	char activities[NB_ACTIVITIES][LG_ACTIVITY] = { "downstairs", "jogging", "sitting", "standing", "upstairs", "walking" };
-	Classe classes[100];
+	// char activities[NB_ACTIVITIES][LG_ACTIVITY] = { "downstairs", "jogging", "sitting", "standing", "upstairs", "walking" };
 	FILE* pTrainset;
 	FILE* pModelset;
-	int iClasse = 0;
+	int iClasse;
+	int iVector;
+	double vector;
+	char line[100];
+	char* word;
+	double moyenne;
+	char sMoyenne[20];
+
+	// Init classes
+	Classe classes[100];
+	for (int i = 0; i < 100; i++)
+	{
+		classes[i].nbRow = 0;
+		for (int j = 0; j < 1000; j++)
+		{
+			classes[i].sumVectors[j] = 0;
+		}
+	}
 
 	fopen_s(&pTrainset, "trainSet.csv", "r");
 	fopen_s(&pModelset, "modelSet.csv", "w");
 
 	if (pTrainset != NULL && pModelset != NULL)
 	{
-		// Lecture du fichier
-		/*
-		while ()
+		// Read a line
+		fgets(line, 1, pTrainset);
+
+		while (!feof(pTrainset))
 		{
-			iClasse = GetActivityIndex(ligne);
-			classes[iClasse].nbRow++;
+			// Read begining of line (activity index)
+			iClasse = strtok(line, ',');
+			while (iClasse != NULL && iClasse < NB_CLASSES)
+			{
+				classes[iClasse].nbRow++;
+
+				// Read vectors
+				iVector = 0;
+				word = strtok(line, ',');
+				while (iVector < NB_VECTOR)
+				{
+					vector = atof(word);
+
+					classes[iClasse].sumVectors[iVector] += vector;
+					iVector++;
+					word = strtok(line, ',');
+				}
+
+				iClasse++;
+				iClasse = strtok(line, ',');
+			}
+		}
+
+		iClasse = 0;
+		while (iClasse < NB_CLASSES)
+		{
+			// Write activity index to file
+			memset(sMoyenne, 0, sizeof(sMoyenne));
+			snprintf(sMoyenne, sizeof(sMoyenne), "%d,", iClasse);
+			fwrite(sMoyenne, 1, strlen(sMoyenne), pModelset);
+
 			iVector = 0;
 			while (iVector < NB_VECTOR)
 			{
-				classes[iClasse].sumVectors[iVector] += ligne[iVector];
+				moyenne = classes[iClasse].sumVectors[iVector] / classes[iClasse].nbRow;
+
+				// Write vector to file
+				memset(sMoyenne, 0, sizeof(sMoyenne));
+				snprintf(sMoyenne, sizeof(sMoyenne), "%lf,", moyenne);
+				fwrite(sMoyenne, 1, strlen(sMoyenne), pModelset);
 				iVector++;
 			}
+			iClasse++;
 		}
-		*/
 
 		fclose(pTrainset);
 		fclose(pModelset);

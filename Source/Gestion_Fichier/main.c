@@ -12,6 +12,8 @@ int main(int argc, char *argv[])
 
 	createTrainAndTestsSetFiles();
 
+	createModelSet();
+
 	printf_s("\n");
 	return 0;
 }

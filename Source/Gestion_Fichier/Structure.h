@@ -29,5 +29,5 @@ typedef struct Classe Classe;
 struct Classe
 {
 	int nbRow;
-	int sumVectors[10000];
+	int sumVectors[1000];
 };

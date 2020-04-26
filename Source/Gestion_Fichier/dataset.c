@@ -25,6 +25,7 @@ void createTrainAndTestsSetFiles(void)
 	FILE* pTrainset;
 	FILE* pTestset;
 	FILE* pFileData;
+	FILE* pFileToWrite;
 	char filepath[35];
 	char titre[175];
 	Row* pRow = malloc(sizeof(Row));
@@ -51,18 +52,22 @@ void createTrainAndTestsSetFiles(void)
 					// Skip first line (title)
 					fgets(titre, 175, pFileData);
 
-					// Write activity at the begining
-					memset(activity, 0, sizeof(activity));
-					snprintf(activity, sizeof(activity), "%s,", activities[GetActivityIndex(iFolder)]);
+					// Choose the file to write
 					isTestsetFile = iFile % 10 == 0;
 					if (isTestsetFile)
 					{
-						fwrite(activity, 1, sizeof(activity), pTestset);
+						pFileToWrite = pTestset;
 					}
 					else
 					{
-						fwrite(activity, 1, sizeof(activity), pTrainset);
+						pFileToWrite = pTrainset;
 					}
+
+					// Write activity at the begining of the line
+					memset(activity, 0, sizeof(activity));
+					// snprintf(activity, sizeof(activity), "%s,", activities[GetActivityIndex(iFolder)]);
+					snprintf(activity, sizeof(activity), "%d,", GetActivityIndex(iFolder));
+					fwrite(activity, 1, strlen(activity), pFileToWrite);
 
 					// Read a row
 					fscanf_s(pFileData, "%d,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", &row.id, &row.attitude.roll, &row.attitude.pitch, &row.attitude.yaw,
@@ -77,14 +82,8 @@ void createTrainAndTestsSetFiles(void)
 						memset(sVector, 0, sizeof(sVector));
 						snprintf(sVector, sizeof(sVector), "%lf,", vector);
 
-						if (isTestsetFile)
-						{
-							fwrite(sVector, 1, sizeof(sVector), pTestset);
-						}
-						else
-						{
-							fwrite(sVector, 1, sizeof(sVector), pTrainset);
-						}
+						// Write vector to file
+						fwrite(sVector, 1, strlen(sVector), pFileToWrite);
 
 						// Read a row
 						fscanf_s(pFileData, "%d,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", &row.id, &row.attitude.roll, &row.attitude.pitch, &row.attitude.yaw,
@@ -94,14 +93,8 @@ void createTrainAndTestsSetFiles(void)
 					}
 					fclose(pFileData);
 
-					if (isTestsetFile)
-					{
-						fwrite(&backline, 1, sizeof(backline), pTestset);
-					}
-					else
-					{
-						fwrite(&backline, 1, sizeof(backline), pTrainset);
-					}
+					// Write a backline to file to finish the line
+					fwrite(&backline, 1, sizeof(backline), pFileToWrite);
 				}
 				else
 				{
@@ -112,6 +105,7 @@ void createTrainAndTestsSetFiles(void)
 			}
 		}
 
+		pFileToWrite = NULL;
 		fclose(pTrainset);
 		fclose(pTestset);
 	}
