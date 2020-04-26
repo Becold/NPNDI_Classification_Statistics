@@ -26,6 +26,7 @@ void createModelSet(void)
 	char* next_vector = ' ';
 	double moyenne;
 	char sMoyenne[10];
+	char backline = '\n';
 
 	// Init classes
 	Classe classes[6];
@@ -41,6 +42,8 @@ void createModelSet(void)
 	fopen_s(&pTrainset, "trainSet.csv", "r");
 	fopen_s(&pModelset, "modelSet.csv", "w");
 
+	char* pNext = 0;
+
 	if (pTrainset != NULL && pModelset != NULL)
 	{
 		// Read a line
@@ -49,29 +52,24 @@ void createModelSet(void)
 		while (!feof(pTrainset))
 		{
 			// Read begining of line (activity index)
-			iClasse = strtok_s(line, ",", &next_classe);
-			while (iClasse != NULL && iClasse < NB_CLASSES)
+			iClasse = strtod(line, &pNext);
+			while (iClasse < NB_CLASSES && !feof(pTrainset))
 			{
 				classes[iClasse].nbRow++;
 
 				// Read vectors
 				iVector = 0;
-				word = strtok_s(line, ",", &next_vector);
-				while (iVector < NB_VECTOR)
+				while (iVector < NB_VECTOR && !feof(pTrainset))
 				{
-					vector = atof(word);
-
-					classes[iClasse].sumVectors[iVector] += vector;
+					// vector = atof(word);
+					classes[iClasse].sumVectors[iVector] += strtod(pNext + 1, &pNext);
 					iVector++;
-					word = strtok_s(NULL, ",", &next_vector);
 				}
 
-				iClasse++;
-				iClasse = strtok_s(NULL, ",", &next_classe);
+				// Read next line
+				fgets(line, 9500, pTrainset);
+				iClasse = strtod(line, &pNext);
 			}
-
-			// Read next line
-			fgets(line, 9500, pTrainset);
 		}
 
 		iClasse = 0;
@@ -93,6 +91,9 @@ void createModelSet(void)
 				fwrite(sMoyenne, 1, strlen(sMoyenne), pModelset);
 				iVector++;
 			}
+
+			// Write a backline to file to finish the line
+			fwrite(&backline, 1, sizeof(backline), pModelset);
 			iClasse++;
 		}
 
