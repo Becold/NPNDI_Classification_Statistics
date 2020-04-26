@@ -6,16 +6,15 @@
 #include "Structure.h"
 #include "Prototype.h"
 
-#define NB_ACTIVITIES 6
+#define NB_CLASSES 6
 #define LG_ACTIVITY 20
 
 #define NB_VECTOR 1000
 
-#define NB_CLASSES 6
 
 void createModelSet(void)
 {
-	// char activities[NB_ACTIVITIES][LG_ACTIVITY] = { "downstairs", "jogging", "sitting", "standing", "upstairs", "walking" };
+	// char activities[NB_CLASSES][LG_ACTIVITY] = { "downstairs", "jogging", "sitting", "standing", "upstairs", "walking" };
 	FILE* pTrainset;
 	FILE* pModelset;
 	int iClasse;
@@ -24,14 +23,14 @@ void createModelSet(void)
 	char line[100];
 	char* word;
 	double moyenne;
-	char sMoyenne[20];
+	char sMoyenne[10];
 
 	// Init classes
-	Classe classes[100];
-	for (int i = 0; i < 100; i++)
+	Classe classes[6];
+	for (int i = 0; i < NB_CLASSES; i++)
 	{
 		classes[i].nbRow = 0;
-		for (int j = 0; j < 1000; j++)
+		for (int j = 0; j < NB_VECTOR; j++)
 		{
 			classes[i].sumVectors[j] = 0;
 		}
