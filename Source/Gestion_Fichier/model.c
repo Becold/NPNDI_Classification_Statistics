@@ -20,8 +20,10 @@ void createModelSet(void)
 	int iClasse;
 	int iVector;
 	double vector;
-	char line[100];
+	char line[9500];
 	char* word;
+	char* next_classe = ' ';
+	char* next_vector = ' ';
 	double moyenne;
 	char sMoyenne[10];
 
@@ -42,31 +44,34 @@ void createModelSet(void)
 	if (pTrainset != NULL && pModelset != NULL)
 	{
 		// Read a line
-		fgets(line, 1, pTrainset);
+		fgets(line, 9500, pTrainset);
 
 		while (!feof(pTrainset))
 		{
 			// Read begining of line (activity index)
-			iClasse = strtok(line, ',');
+			iClasse = strtok_s(line, ",", &next_classe);
 			while (iClasse != NULL && iClasse < NB_CLASSES)
 			{
 				classes[iClasse].nbRow++;
 
 				// Read vectors
 				iVector = 0;
-				word = strtok(line, ',');
+				word = strtok_s(line, ",", &next_vector);
 				while (iVector < NB_VECTOR)
 				{
 					vector = atof(word);
 
 					classes[iClasse].sumVectors[iVector] += vector;
 					iVector++;
-					word = strtok(line, ',');
+					word = strtok_s(NULL, ",", &next_vector);
 				}
 
 				iClasse++;
-				iClasse = strtok(line, ',');
+				iClasse = strtok_s(NULL, ",", &next_classe);
 			}
+
+			// Read next line
+			fgets(line, 9500, pTrainset);
 		}
 
 		iClasse = 0;
