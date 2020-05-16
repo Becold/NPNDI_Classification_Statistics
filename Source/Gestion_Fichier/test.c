@@ -54,8 +54,13 @@ void testTestSet(int realClasses[], int estimatedClasses[])
 				// Read vectors
 				iVector = 0;
 				double vectorModel = strtod(pNext + 1, &pNext);
-				while (iVector < NB_VECTOR && !feof(pModelsFile))
+				while (iVector < NB_VECTOR && pNext != NULL && !feof(pModelsFile))
 				{
+					if (vectorModel > 200)
+					{
+						printf_s("\n[Incoherence de lecture][Model][Model:%d][Vector:#%d] %f", iModel, iVector, vectorModel);
+					}
+
 					models[iModel].vectors[iVector] = vectorModel;
 					iVector++;
 					vectorModel = strtod(pNext + 1, &pNext);
@@ -108,10 +113,14 @@ void testTestSet(int realClasses[], int estimatedClasses[])
 			while (iVector < NB_VECTOR && pTestSetFile != NULL && !feof(pTestSetFile))
 			{
 				double vectorTest = strtod(pNext + 1, &pNext);
+				if (vectorTest > 200)
+				{
+					printf_s("\n---- [Incoherrence de lecture][TestsSet][Row:%d][Vector:#%d] %f\n", iRow, iVector, vectorTest);
+				}
+
 				for (int iModel = 0; iModel < NB_MODEL && pNext != NULL && pTestSetFile != NULL && !feof(pTestSetFile); iModel++)
 				{
 					double vectorModel = models[iModel].vectors[iVector];
-					if (vectorTest < 0 || vectorModel < 0 || vectorTest > 200 || vectorModel > 200) continue;
 					sumVectors[iModel] += pow(vectorTest - vectorModel, 2);
 				}
 				iVector++;

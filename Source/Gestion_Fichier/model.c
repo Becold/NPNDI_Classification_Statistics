@@ -44,10 +44,12 @@ void createModelSet(void)
 
 	char* pNext = 0;
 
+	printf_s("\n-- Calcul pour les modèles");
 	if (pTrainset != NULL && pModelset != NULL && !feof(pTrainset))
 	{
 		// Read a line
 		fgets(line, 9500, pTrainset);
+		int iRow = 0;
 
 		while (!feof(pTrainset))
 		{
@@ -62,6 +64,11 @@ void createModelSet(void)
 				vector = strtod(pNext + 1, &pNext);
 				while (iVector < NB_VECTOR && pNext != NULL && !feof(pTrainset))
 				{
+					if (vector > 200)
+					{
+						printf_s("\n[Incoherrence de lecture][TrainSet][Row:%d][Vector:#%d] %f", iRow, iVector, vector);
+					}
+
 					classes[iClasse].sumVectors[iVector] += vector;
 
 					vector = strtod(pNext + 1, &pNext);
@@ -70,6 +77,7 @@ void createModelSet(void)
 
 				// Read next line
 				fgets(line, 9500, pTrainset);
+				iRow++;
 				iClasse = strtod(line, &pNext);
 			}
 		}
@@ -85,19 +93,17 @@ void createModelSet(void)
 			iVector = 0;
 			while (iVector < NB_VECTOR)
 			{
+				// Write vector to file
 				double somme = classes[iClasse].sumVectors[iVector];
 				moyenne = somme / classes[iClasse].nbRow;
-
-				// Write vector to file
-				memset(sMoyenne, 0, sizeof(sMoyenne));
-				snprintf(sMoyenne, sizeof(sMoyenne), "%lf,", moyenne);
-				fwrite(sMoyenne, 1, strlen(sMoyenne), pModelset);
+				snprintf(sMoyenne, sizeof(sMoyenne), "%f", moyenne);
+				fprintf_s(pModelset, "%s,", sMoyenne);
 				iVector++;
 			}
 
 			// Write a backline to file to finish the line
 			fwrite(&backline, 1, sizeof(backline), pModelset);
-			printf_s("\n-- Ecriture du model %d", iClasse);
+			printf_s("\n-- Fin d'ecriture du model %d", iClasse);
 			iClasse++;
 		}
 

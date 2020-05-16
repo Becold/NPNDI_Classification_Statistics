@@ -54,14 +54,7 @@ void createTrainAndTestsSetFiles(void)
 
 					// Choose the file to write
 					isTestsetFile = iFile % 10 == 0;
-					if (isTestsetFile)
-					{
-						pFileToWrite = pTestset;
-					}
-					else
-					{
-						pFileToWrite = pTrainset;
-					}
+					pFileToWrite = isTestsetFile ? pTestset : pTrainset;
 
 					// Write activity at the begining of the line
 					memset(activity, 0, sizeof(activity));
@@ -84,6 +77,11 @@ void createTrainAndTestsSetFiles(void)
 
 						// Write vector to file
 						fwrite(sVector, 1, strlen(sVector), pFileToWrite);
+
+						if (vector > 200)
+						{
+							printf_s("\n[Incoherrence d'écriture][%s][Row:%d] %f", pFileToWrite ? "TestsSet": "TrainSet", iRow, vector);
+						}
 
 						// Read a row
 						fscanf_s(pFileData, "%d,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", &row.id, &row.attitude.roll, &row.attitude.pitch, &row.attitude.yaw,
