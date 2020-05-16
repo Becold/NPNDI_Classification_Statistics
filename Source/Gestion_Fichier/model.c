@@ -44,7 +44,7 @@ void createModelSet(void)
 
 	char* pNext = 0;
 
-	if (pTrainset != NULL && pModelset != NULL)
+	if (pTrainset != NULL && pModelset != NULL && !feof(pTrainset))
 	{
 		// Read a line
 		fgets(line, 9500, pTrainset);

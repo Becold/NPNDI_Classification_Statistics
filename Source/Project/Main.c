@@ -41,7 +41,7 @@ void displayResultsForEachClasses(char realClasses[], char estimatedClasses[])
 	researchClasses(realClasses, estimatedClasses, NB_DATA, &classes, &nbClasses, &sumNbGoodEstimation, &sumTotal, &maxTotal);
 
 	// Display labels
-	printf_s("%12s | %s | %s | %s \n", "classe", "bien classe", "total", "pourcentage");
+	printf_s("\n\n%12s | %s | %s | %s \n", "classe", "bien classe", "total", "pourcentage");
 
 	Classe* pClasse = classes;
 	while (pClasse != NULL)

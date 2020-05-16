@@ -150,10 +150,14 @@
     <ClCompile Include="dataset.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="model.c" />
+    <ClCompile Include="test.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Prototype.h" />
     <ClInclude Include="Structure.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Main.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
