@@ -13,10 +13,10 @@
 typedef struct Model Model;
 struct Model
 {
-	double vectors[1000];
+	double vectors[1500];
 };
 
-void testTestSet(char realClasses[], char estimatedClasses[])
+void testTestSet(int realClasses[], int estimatedClasses[])
 {
 	Model models[NB_MODEL];
 	FILE* pModelsFile;
@@ -53,10 +53,12 @@ void testTestSet(char realClasses[], char estimatedClasses[])
 			{
 				// Read vectors
 				iVector = 0;
+				double vectorModel = strtod(pNext + 1, &pNext);
 				while (iVector < NB_VECTOR && !feof(pModelsFile))
 				{
-					models[iModel].vectors[iVector] = strtod(pNext + 1, &pNext);
+					models[iModel].vectors[iVector] = vectorModel;
 					iVector++;
+					vectorModel = strtod(pNext + 1, &pNext);
 				}
 
 				// Read next line
@@ -89,48 +91,50 @@ void testTestSet(char realClasses[], char estimatedClasses[])
 		fgets(line, 9500, pTestSetFile);
 
 		// Read begining of line of test (activity index) => write it to realClasses
-		if (pTestSetFile != NULL && !feof(pTestSetFile))
+		while (pTestSetFile != NULL && !feof(pTestSetFile))
 		{
 			iActivity = strtod(line, &pNext);
-			printf_s("\n---- Lecture de la ligne %d.", iRow);
-			realClasses[iRow] = iActivity + '0';
+			printf_s("\n---- Test de la ligne %d.", iRow);
+			realClasses[iRow] = iActivity;
 
 			// We compare tested vectors with model vectors
 			iVector = 0;
 			double sumVectors[NB_MODEL];
+			for (int iModell = 0; iModell < NB_MODEL; iModell++)
+			{
+				sumVectors[iModell] = 0;
+			}
+
 			while (iVector < NB_VECTOR && pTestSetFile != NULL && !feof(pTestSetFile))
 			{
 				double vectorTest = strtod(pNext + 1, &pNext);
-				for (int iModell = 0; iModell < NB_MODEL; iModell++)
+				for (int iModel = 0; iModel < NB_MODEL && pNext != NULL && pTestSetFile != NULL && !feof(pTestSetFile); iModel++)
 				{
-					sumVectors[iModell] = 0;
-				}
-
-				for (int iModel = 0; iModel < NB_MODEL && pTestSetFile != NULL && !feof(pTestSetFile); iModel++)
-				{
-					double vectorModel = models[iActivity].vectors[iVector];
+					double vectorModel = models[iModel].vectors[iVector];
+					if (vectorTest < 0 || vectorModel < 0 || vectorTest > 200 || vectorModel > 200) continue;
 					sumVectors[iModel] += pow(vectorTest - vectorModel, 2);
-
-					iVector++;
-					vectorTest = strtod(pNext + 1, &pNext);
 				}
+				iVector++;
 			}
 
-			// Calculate distance
+			// Calculate distance for each model
 			double oldDistance = DBL_MAX;
-			int iEstmatedActivityOfTest = 0;
-			for (int iModell = 0; iModell < NB_MODEL; iModell++)
+			int estimatedActivity = 0;
+			int iModelTest = 0;
+			while (iModelTest < NB_MODEL)
 			{
-				double distance = sqrt(sumVectors[iModell]);
+				double distance = sqrt(sumVectors[iModelTest]);
 
 				// If we got closer of an other model, it must be it
-				if (distance < oldDistance)
+				if (oldDistance > distance)
 				{
-					iEstmatedActivityOfTest = iModell;
+					estimatedActivity = iModelTest;
 					oldDistance = distance;
 				}
+				iModelTest++;
 			}
-			estimatedClasses[iRow] = iEstmatedActivityOfTest + '0';
+			estimatedClasses[iRow] = estimatedActivity;
+			printf_s("... Estimation: %d", estimatedClasses[iRow]);
 
 			// Read next line
 			fgets(line, 9500, pTestSetFile);

@@ -59,10 +59,12 @@ void createModelSet(void)
 
 				// Read vectors
 				iVector = 0;
-				while (iVector < NB_VECTOR && !feof(pTrainset))
+				vector = strtod(pNext + 1, &pNext);
+				while (iVector < NB_VECTOR && pNext != NULL && !feof(pTrainset))
 				{
-					// vector = atof(word);
-					classes[iClasse].sumVectors[iVector] += strtod(pNext + 1, &pNext);
+					classes[iClasse].sumVectors[iVector] += vector;
+
+					vector = strtod(pNext + 1, &pNext);
 					iVector++;
 				}
 
@@ -83,7 +85,8 @@ void createModelSet(void)
 			iVector = 0;
 			while (iVector < NB_VECTOR)
 			{
-				moyenne = classes[iClasse].sumVectors[iVector] / classes[iClasse].nbRow;
+				double somme = classes[iClasse].sumVectors[iVector];
+				moyenne = somme / classes[iClasse].nbRow;
 
 				// Write vector to file
 				memset(sMoyenne, 0, sizeof(sMoyenne));
@@ -94,6 +97,7 @@ void createModelSet(void)
 
 			// Write a backline to file to finish the line
 			fwrite(&backline, 1, sizeof(backline), pModelset);
+			printf_s("\n-- Ecriture du model %d", iClasse);
 			iClasse++;
 		}
 

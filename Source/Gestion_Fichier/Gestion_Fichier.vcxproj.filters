@@ -37,7 +37,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Object Include="Main.obj">
+    <Object Include="..\Project\x64\Debug\Main.obj">
       <Filter>Source Files</Filter>
     </Object>
   </ItemGroup>

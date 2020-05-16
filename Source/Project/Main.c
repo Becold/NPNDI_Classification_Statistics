@@ -6,14 +6,12 @@
 #include "Structure.h"
 #include "Prototype.h"
 
-#define NB_DATA 160
-
 /*
 int main(int argc, char *argv[])
 {
 	// Customs params
-	char realClasses[NB_DATA] = { '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4', '5', '2', '5', '3', '5', '3', '2', '4' };
-	char estimatedClasses[NB_DATA] = { '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4', '5', '5', '1', '2', '1', '3', '2', '4' };
+	int realClasses[NB_DATA] = { 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4, 5, 2, 5, 3, 5, 3, 2, 4 };
+	int estimatedClasses[NB_DATA] = { 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4, 5, 5, 1, 2, 1, 3, 2, 4 };
 
 	// Public methods
 	displayResultsForEachClasses(realClasses, estimatedClasses);
@@ -29,7 +27,7 @@ int main(int argc, char *argv[])
 
 #pragma region PUBLIC_METHODS
 
-void displayResultsForEachClasses(char realClasses[], char estimatedClasses[])
+void displayResultsForEachClasses(int realClasses[], int estimatedClasses[], int size)
 {
 	// Initialization
 	Classe* classes = NULL;
@@ -38,7 +36,7 @@ void displayResultsForEachClasses(char realClasses[], char estimatedClasses[])
 	int sumTotal = 0;
 	int maxTotal = -1;
 
-	researchClasses(realClasses, estimatedClasses, NB_DATA, &classes, &nbClasses, &sumNbGoodEstimation, &sumTotal, &maxTotal);
+	researchClasses(realClasses, estimatedClasses, size, &classes, &nbClasses, &sumNbGoodEstimation, &sumTotal, &maxTotal);
 
 	// Display labels
 	printf_s("\n\n%12s | %s | %s | %s \n", "classe", "bien classe", "total", "pourcentage");
@@ -48,7 +46,7 @@ void displayResultsForEachClasses(char realClasses[], char estimatedClasses[])
 	{
 		double pourcentage = calculatePourcentage(pClasse->nbGoodEstimation, pClasse->total) * 100;
 
-		printf_s("%12c | %11d | %5d | %.2f%%\n", pClasse->name,
+		printf_s("%12d | %11d | %5d | %.2f%%\n", pClasse->name,
 											     pClasse->nbGoodEstimation,
 											     pClasse->total,
 											     pourcentage);
@@ -57,7 +55,7 @@ void displayResultsForEachClasses(char realClasses[], char estimatedClasses[])
 	}
 }
 
-void displayAccuracy(char realClasses[], char estimatedClasses[])
+void displayAccuracy(int realClasses[], int estimatedClasses[], int size)
 {
 	// Initialization
 	Classe* classes = NULL;
@@ -66,14 +64,14 @@ void displayAccuracy(char realClasses[], char estimatedClasses[])
 	int sumTotal = 0;
 	int maxTotal = -1;
 
-	researchClasses(realClasses, estimatedClasses, NB_DATA, &classes, &nbClasses, &sumNbGoodEstimation, &sumTotal, &maxTotal);
+	researchClasses(realClasses, estimatedClasses, size, &classes, &nbClasses, &sumNbGoodEstimation, &sumTotal, &maxTotal);
 
 	// Display accuracy
 	double accuracy = calculatePourcentage((double)sumNbGoodEstimation, (double)sumTotal) * 100;
 	printf_s("L'accuracy est de %.2f %% : %d bonnes estimations sur %d elements au total.\n", accuracy, sumNbGoodEstimation, sumTotal);
 }
 
-void displayBarCharts(char realClasses[], char estimatedClasses[])
+void displayBarCharts(int realClasses[], int estimatedClasses[], int size)
 {
 	// Initialization
 	Classe* classes = NULL;
@@ -82,7 +80,7 @@ void displayBarCharts(char realClasses[], char estimatedClasses[])
 	int sumTotal = 0;
 	int maxTotal = -1;
 
-	researchClasses(realClasses, estimatedClasses, NB_DATA, &classes, &nbClasses, &sumNbGoodEstimation, &sumTotal, &maxTotal);
+	researchClasses(realClasses, estimatedClasses, size, &classes, &nbClasses, &sumNbGoodEstimation, &sumTotal, &maxTotal);
 
 	// Compute ratio (Value of a "case" on the screen)
 	double ratio = computeRatio(&maxTotal);
@@ -97,12 +95,12 @@ void displayBarCharts(char realClasses[], char estimatedClasses[])
 
 #pragma region PRIVATE_METHODS 
 
-void researchClasses(char realClasses[], char estimatedClasses[], int size, Classe** classes, int* nbClasses, int* sumNbGoodEstimation, int* sumTotal, int* maxTotal)
+void researchClasses(int realClasses[], int estimatedClasses[], int size, Classe** classes, int* nbClasses, int* sumNbGoodEstimation, int* sumTotal, int* maxTotal)
 {
 	for (int i = 0; i < size; i++)
 	{
-		char real = realClasses[i];
-		char estimated = estimatedClasses[i];
+		int real = realClasses[i];
+		int estimated = estimatedClasses[i];
 
 		addOrUpdateClasses(classes, real, estimated, nbClasses, sumNbGoodEstimation, sumTotal, maxTotal);
 	}
@@ -183,7 +181,7 @@ void displayColumnsAndBars(Classe* classes, double ratio)
 
 		printf_s(" P|");
 		displayBar(pClasse->nbGoodEstimation, ratio);
-		printf_s("\n%cN|", pClasse->name);
+		printf_s("\n%dN|", pClasse->name);
 		displayBar(nbMissEstimation, ratio);
 		printf_s("\n T|");
 		displayBar(pClasse->total, ratio);
@@ -204,7 +202,7 @@ void displayBar(double value, double ratio)
 	printf_s("    %.2f", value);
 }
 
-void addOrUpdateClasses(Classe** classes, char real, char estimated, int* nbClasses, int* sumNbGoodEstimation, int* sumTotal, int* maxTotal)
+void addOrUpdateClasses(Classe** classes, int real, int estimated, int* nbClasses, int* sumNbGoodEstimation, int* sumTotal, int* maxTotal)
 {
 	bool isCorrectEstimation = (real == estimated);
 
@@ -252,7 +250,7 @@ void updateClasse(Classe* pClasse, bool isCorrectEstimation)
 	pClasse->total += 1;
 }
 
-void addClasse(char real, bool isCorrectEstimation, Classe** classes, Classe* pPrecClasse, int* nbClasses, int *maxTotal)
+void addClasse(int real, bool isCorrectEstimation, Classe** classes, Classe* pPrecClasse, int* nbClasses, int *maxTotal)
 {
 	Classe* pNewClasse = createClasse(real, isCorrectEstimation);
 
@@ -266,7 +264,7 @@ void addClasse(char real, bool isCorrectEstimation, Classe** classes, Classe* pP
 	updateMaxTotal(maxTotal, pNewClasse->total);
 }
 
-Classe* createClasse(char name, bool isCorrectEstimation)
+Classe* createClasse(int name, bool isCorrectEstimation)
 {
 	Classe* pNewClasse = malloc(sizeof(Classe));
 	if (pNewClasse == NULL) return NULL; // Out of memory.
