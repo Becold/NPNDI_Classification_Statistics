@@ -1,11 +1,11 @@
 #pragma once
 
 
-void displayResultsForEachClasses(int realClasses[], int estimatedClasses[]);
+void displayResultsForEachClasses(int realClasses[], int estimatedClasses[], int size);
 
-void displayAccuracy(int realClasses[], int estimatedClasses[]);
+void displayAccuracy(int realClasses[], int estimatedClasses[], int size);
 
-void displayBarCharts(int realClasses[], int estimatedClasses[]);
+void displayBarCharts(int realClasses[], int estimatedClasses[], int size);
 
 double computeRatio(int* maxTotal);
 

@@ -40,5 +40,8 @@
     <Object Include="..\Project\x64\Debug\Main.obj">
       <Filter>Source Files</Filter>
     </Object>
+    <Object Include="reals.obj">
+      <Filter>Source Files</Filter>
+    </Object>
   </ItemGroup>
 </Project>

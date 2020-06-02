@@ -71,17 +71,17 @@ void createTrainAndTestsSetFiles(void)
 					// Writes computed vectors
 					for (int iRow = 0; iRow < NB_VECTOR && !feof(pFileData); iRow++)
 					{
-						vector = sqrt(row.userAcceleration.x * row.userAcceleration.x * row.userAcceleration.y * row.userAcceleration.y * row.userAcceleration.z * row.userAcceleration.z);
+						vector = sqrt(row.userAcceleration.x * row.userAcceleration.x + row.userAcceleration.y * row.userAcceleration.y + row.userAcceleration.z * row.userAcceleration.z);
+						
+						if (vector == 0.0000)
+							printf_s("vector == 0");
+
 						memset(sVector, 0, sizeof(sVector));
 						snprintf(sVector, sizeof(sVector), "%lf,", vector);
 
 						// Write vector to file
 						fwrite(sVector, 1, strlen(sVector), pFileToWrite);
 
-						if (vector > 200)
-						{
-							printf_s("\n[Incoherrence d'écriture][%s][Row:%d] %f", pFileToWrite ? "TestsSet": "TrainSet", iRow, vector);
-						}
 
 						// Read a row
 						fscanf_s(pFileData, "%d,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", &row.id, &row.attitude.roll, &row.attitude.pitch, &row.attitude.yaw,

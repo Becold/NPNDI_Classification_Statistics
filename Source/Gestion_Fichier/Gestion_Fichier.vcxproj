@@ -157,7 +157,13 @@
     <ClInclude Include="Structure.h" />
   </ItemGroup>
   <ItemGroup>
-    <Object Include="..\Project\x64\Debug\Main.obj" />
+    <Object Include="..\Project\x64\Debug\Main.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </Object>
+    <Object Include="reals.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Object>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

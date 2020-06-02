@@ -62,13 +62,8 @@ void createModelSet(void)
 				// Read vectors
 				iVector = 0;
 				vector = strtod(pNext + 1, &pNext);
-				while (iVector < NB_VECTOR && pNext != NULL && !feof(pTrainset))
+				while (iVector < NB_VECTOR && pNext != NULL && (*pNext) != "" && (*pNext) != ',\n' && (*pNext) != '\n' && !feof(pTrainset))
 				{
-					if (vector > 200)
-					{
-						printf_s("\n[Incoherrence de lecture][TrainSet][Row:%d][Vector:#%d] %f", iRow, iVector, vector);
-					}
-
 					classes[iClasse].sumVectors[iVector] += vector;
 
 					vector = strtod(pNext + 1, &pNext);

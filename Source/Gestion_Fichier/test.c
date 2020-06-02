@@ -49,12 +49,12 @@ void testTestSet(int realClasses[], int estimatedClasses[])
 		{
 			// Read begining of line (activity index)
 			iModel = strtod(line, &pNext);
-			while (iModel < NB_MODEL && !feof(pModelsFile))
+			while (iModel < NB_MODEL && (*pNext) != "" && (*pNext) != ',\n' && (*pNext) != '\n' && !feof(pModelsFile))
 			{
 				// Read vectors
 				iVector = 0;
 				double vectorModel = strtod(pNext + 1, &pNext);
-				while (iVector < NB_VECTOR && pNext != NULL && !feof(pModelsFile))
+				while (iVector < NB_VECTOR && pNext != NULL && (*pNext) != "" && (*pNext) != ',\n' && (*pNext) != '\n' && !feof(pModelsFile))
 				{
 					if (vectorModel > 200)
 					{
@@ -96,9 +96,9 @@ void testTestSet(int realClasses[], int estimatedClasses[])
 		fgets(line, 9500, pTestSetFile);
 
 		// Read begining of line of test (activity index) => write it to realClasses
-		while (pTestSetFile != NULL && !feof(pTestSetFile))
+		iActivity = strtod(line, &pNext);
+		while (pTestSetFile != NULL && pNext != NULL && (*pNext) != "" && (*pNext) != ',\n' && (*pNext) != '\n' && !feof(pTestSetFile))
 		{
-			iActivity = strtod(line, &pNext);
 			printf_s("\n---- Test de la ligne %d.", iRow);
 			realClasses[iRow] = iActivity;
 
@@ -110,7 +110,7 @@ void testTestSet(int realClasses[], int estimatedClasses[])
 				sumVectors[iModell] = 0;
 			}
 
-			while (iVector < NB_VECTOR && pTestSetFile != NULL && !feof(pTestSetFile))
+			while (iVector < NB_VECTOR && pTestSetFile != NULL && pNext != NULL && (*pNext) != "" && (*pNext) != ',\n' && (*pNext) != '\n' && !feof(pTestSetFile))
 			{
 				double vectorTest = strtod(pNext + 1, &pNext);
 				if (vectorTest > 200)
@@ -143,7 +143,8 @@ void testTestSet(int realClasses[], int estimatedClasses[])
 				iModelTest++;
 			}
 			estimatedClasses[iRow] = estimatedActivity;
-			printf_s("... Estimation: %d", estimatedClasses[iRow]);
+			char* textOk = estimatedClasses[iRow] == iActivity ? " -- Ok !" : "";
+			printf_s("... Estimation: %d - Real: %d %s", estimatedClasses[iRow], iActivity, textOk);
 
 			// Read next line
 			fgets(line, 9500, pTestSetFile);
