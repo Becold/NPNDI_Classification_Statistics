@@ -29,19 +29,17 @@ void testTestSet(int realClasses[], int estimatedClasses[])
 	// Initialization
 	for (iModel = 0; iModel < NB_MODEL; iModel++)
 	{
-		for (iVector = 0; iVector < 1000; iVector++)
+		for (iVector = 0; iVector < NB_VECTOR; iVector++)
 		{
 			models[iModel].vectors[iVector] = 0;
 		}
 	}
 
-	// Lecture des models
-	fopen_s(&pModelsFile, "modelSet.csv", "r");
-
 	// Read Models file and write it into memory
-	// Less write on 
+	// => Less reading on disk harddrive
+	fopen_s(&pModelsFile, "modelSet.csv", "r");
 	iModel = 0;
-	while (pModelsFile != NULL && !feof(pModelsFile))
+	if (pModelsFile != NULL && !feof(pModelsFile))
 	{
 		fgets(line, 9500, pModelsFile);
 
@@ -49,43 +47,37 @@ void testTestSet(int realClasses[], int estimatedClasses[])
 		{
 			// Read begining of line (activity index)
 			iModel = strtod(line, &pNext);
+
+			// Read vectors
 			while (iModel < NB_MODEL && (*pNext) != "" && (*pNext) != ',\n' && (*pNext) != '\n' && !feof(pModelsFile))
 			{
-				// Read vectors
 				iVector = 0;
 				double vectorModel = strtod(pNext + 1, &pNext);
 				while (iVector < NB_VECTOR && pNext != NULL && (*pNext) != "" && (*pNext) != ',\n' && (*pNext) != '\n' && !feof(pModelsFile))
 				{
-					if (vectorModel > 200)
-					{
-						printf_s("\n[Incoherence de lecture][Model][Model:%d][Vector:#%d] %f", iModel, iVector, vectorModel);
-					}
-
 					models[iModel].vectors[iVector] = vectorModel;
-					iVector++;
 					vectorModel = strtod(pNext + 1, &pNext);
+					iVector++;
 				}
 
-				// Read next line
-				fgets(line, 9500, pModelsFile);
-				iModel = strtod(line, &pNext);
 			}
+
+			// Read next line
+			fgets(line, 9500, pModelsFile);
 		}
 	}
-
-	if (iModel == 0)
+	else
 	{
-		printf_s("\nNo models has been read. Program exiting.");
-		exit(1);
-		return 1;
+		printf_s("\nAn error occured while opening modelSet.csv. Their might be used by an other process.\n");
+		system("pause");
+		exit(0);
 	}
 
 	fclose(pModelsFile);
 
 
 	// Read TestSet et test it
-	// and write result to realClasses and estimatedClasses
-	pNext = 0;
+	// and write results to realClasses and estimatedClasses arrays
 	printf_s("\n-- Lecture du fichier testSet et estimation des activites.");
 	fopen_s(&pTestSetFile, "testsSet.csv", "r");
 
@@ -96,29 +88,27 @@ void testTestSet(int realClasses[], int estimatedClasses[])
 		fgets(line, 9500, pTestSetFile);
 
 		// Read begining of line of test (activity index) => write it to realClasses
-		iActivity = strtod(line, &pNext);
+		pNext = 0;
+		int iActivity = strtod(line, &pNext);
 		while (pTestSetFile != NULL && pNext != NULL && (*pNext) != "" && (*pNext) != ',\n' && (*pNext) != '\n' && !feof(pTestSetFile))
 		{
 			printf_s("\n---- Test de la ligne %d.", iRow);
 			realClasses[iRow] = iActivity;
 
 			// We compare tested vectors with model vectors
-			iVector = 0;
 			double sumVectors[NB_MODEL];
-			for (int iModell = 0; iModell < NB_MODEL; iModell++)
+			for (int iSumModel = 0; iSumModel < NB_MODEL; iSumModel++)
 			{
-				sumVectors[iModell] = 0;
+				sumVectors[iSumModel] = 0.00;
 			}
 
+			// Sum 
+			iVector = 0;
 			while (iVector < NB_VECTOR && pTestSetFile != NULL && pNext != NULL && (*pNext) != "" && (*pNext) != ',\n' && (*pNext) != '\n' && !feof(pTestSetFile))
 			{
 				double vectorTest = strtod(pNext + 1, &pNext);
-				if (vectorTest > 200)
-				{
-					printf_s("\n---- [Incoherrence de lecture][TestsSet][Row:%d][Vector:#%d] %f\n", iRow, iVector, vectorTest);
-				}
 
-				for (int iModel = 0; iModel < NB_MODEL && pNext != NULL && pTestSetFile != NULL && !feof(pTestSetFile); iModel++)
+				for (int iModel = 0; iModel < NB_MODEL; iModel++)
 				{
 					double vectorModel = models[iModel].vectors[iVector];
 					sumVectors[iModel] += pow(vectorTest - vectorModel, 2);
@@ -129,29 +119,28 @@ void testTestSet(int realClasses[], int estimatedClasses[])
 			// Calculate distance for each model
 			double oldDistance = DBL_MAX;
 			int estimatedActivity = 0;
-			int iModelTest = 0;
-			while (iModelTest < NB_MODEL)
+			for (int iModelTest = 0; iModelTest < NB_MODEL; iModelTest++)
 			{
 				double distance = sqrt(sumVectors[iModelTest]);
 
-				// If we got closer of an other model, it must be it
+				// If we got closer of an other model => update the estimated activity
 				if (oldDistance > distance)
 				{
 					estimatedActivity = iModelTest;
 					oldDistance = distance;
 				}
-				iModelTest++;
 			}
 			estimatedClasses[iRow] = estimatedActivity;
+
+			// Display some output to the console
 			char* textOk = estimatedClasses[iRow] == iActivity ? " -- Ok !" : "";
-			printf_s("... Estimation: %d - Real: %d %s", estimatedClasses[iRow], iActivity, textOk);
+			printf_s("... Estimation: %d - Real: %d %s", estimatedActivity, iActivity, textOk);
 
 			// Read next line
 			fgets(line, 9500, pTestSetFile);
 			iActivity = strtod(line, &pNext);
 			iRow++;
 		}
-
-		fclose(pTestSetFile);
 	}
+	fclose(pTestSetFile);
 }

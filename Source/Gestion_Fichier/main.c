@@ -11,7 +11,7 @@
 
 int main(int argc, char *argv[])
 {
-	printf_s("\nCreation des 2 sets : TrainSet et TestsSet.");
+	printf_s("\nCreation des 2 sets : TrainSet et TestsSet.\n");
 	createTrainAndTestsSetFiles();
 
 	printf_s("\nCreation du model set sur base du train set.");
